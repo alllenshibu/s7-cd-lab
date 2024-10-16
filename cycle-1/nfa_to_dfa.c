@@ -103,8 +103,6 @@ void main()
     struct node1 newstate = {0}, tmpstate = {0};
 
     printf("Enter the number of alphabets?\n");
-    printf("NOTE:- [ use letter e as epsilon]\n");
-    printf("NOTE:- [e must be last character ,if it is present]\n");
     printf("\nEnter No of alphabets and alphabets?\n");
     scanf("%d", &noalpha);
     getchar();
@@ -125,8 +123,6 @@ void main()
     printf("Enter no of transition?\n");
 
     scanf("%d", &notransition);
-    printf("NOTE:- [Transition is in the form–> qno alphabet qno]\n", notransition);
-    printf("NOTE:- [States number must be greater than zero]\n");
     printf("\nEnter transition?\n");
 
     for (i = 0; i < notransition; i++)

@@ -30,6 +30,16 @@ void findclosure(int x, int sta)
     }
 }
 
+int findalpha(char c)
+{
+    int i;
+    for (i = 0; i < noalpha; i++)
+        if (alphabet[i] == c)
+            return i;
+
+    return (999);
+}
+
 void insert_trantbl(int r, char c, int s)
 {
     int j;
@@ -44,16 +54,6 @@ void insert_trantbl(int r, char c, int s)
     temp->st = s;
     temp->link = transition[r][j];
     transition[r][j] = temp;
-}
-
-int findalpha(char c)
-{
-    int i;
-    for (i = 0; i < noalpha; i++)
-        if (alphabet[i] == c)
-            return i;
-
-    return (999);
 }
 
 void unionclosure(int i)
