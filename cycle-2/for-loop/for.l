@@ -1,20 +1,23 @@
-alpha  [A-Za-z]
-digit  [0-9]
+%{
+#include "y.tab.h"
+%}
 
 %%
-
-[\t \n]        {}
-
-for            return FOR;
-{digit}+      return NUM;
-{alpha}({alpha}|{digit})* return ID;
-"<="          return LE;
-">="          return GE;
-"=="          return EQ;
-"!="          return NE;
-"||"          return OR;
-"&&"          return AND;
-
-.              return yytext[0];
-
+"for"       { return FOR; }
+"("         { return LPAREN; }
+")"         { return RPAREN; }
+";"         { return SEMICOLON; }
+"{"         { return LBRACE; }
+"}"         { return RBRACE; }
+[0-9]+      {  return CONDITION; }
+[a-zA-Z_][a-zA-Z0-9_]* {return IDENTIFIER; }
+"="         { return ASSIGN; }
+"++"        { return INCREMENT; }
+"//".*      { /* ignore comments */ }
+[ \t\n]+    { /* ignore whitespace */ }
+.           { /* ignore any other character */ }
 %%
+
+int yywrap() {
+    return 1;
+}

@@ -1,6 +1,6 @@
 #/bin/bash
 
-yacc -d for.y
-lex for.l
+lex lex.l
+yacc yacc.y -d
 
 cc lex.yy.c y.tab.c -ll

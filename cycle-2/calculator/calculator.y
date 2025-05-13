@@ -52,9 +52,7 @@ E:
 int main() {
     printf("\nEnter Any Arithmetic Expression (Addition, Subtraction, Multiplication, Division, Modulus):\n");
     yyparse();  
-    if (flag == 0) {
         printf("\nEntered arithmetic expression is Valid\n\n");
-    }
     return 0;
 }
 

@@ -2,33 +2,37 @@
 #include <stdio.h>
 #include <string.h>
 
-char name[5];  
-int ignore_flag = 0; 
+char name[100];
+char prefix[100]; 
 
-void update_ignore_flag(char *input) {
-    if (strstr(input, name) != NULL) {
-        ignore_flag = 1;
+void recognize_string(const char *input_string) {
+    if (strstr(input_string, prefix) == NULL) {
+        printf("%s is recognized\n", input_string);
     } else {
-        ignore_flag = 0;
+        printf("%s is not recognized\n", input_string);
     }
 }
 %}
 
 %%
-.*\n {
-    update_ignore_flag(yytext);
-    if (!ignore_flag) {
-        printf("Valid String: %s", yytext);
-    } else {
-        printf("Ignoring String: %s", yytext);
-    }
-}
+[A-Za-z]+  { recognize_string(yytext); } 
+\n         { /* Ignore newlines */ }
+.          { /* Ignore any other character */ }
 %%
 
 int main() {
-    printf("Enter your name (at least 4 characters): ");
-    scanf("%4s", name);
-    printf("Ignoring strings that contain the substring: %s\n", name);
+    printf("Enter the name: ");
+    fgets(name, 100, stdin);  
+    name[strcspn(name, "\n")] = 0; 
+    int prefix_len;
+    prefix_len=4;
+    strncpy(prefix, name, prefix_len);
+    prefix[prefix_len] = '\0'; 
+    printf("Enter input strings (Ctrl+D to stop):\n");
     yylex();  
     return 0;
+}
+
+int yywrap() {
+    return 1;
 }

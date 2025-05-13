@@ -1,32 +1,29 @@
 %{
-    #include <stdio.h>
-
-    int yylex();
-
-    void yyerror(const char *s);
-
-    int valid = 1; 
+    #include<stdio.h>
+    int valid=1;
+    int yyerror();
 %}
 
-%token identifier  
+%token digit letter
 
 %%
-
-start : identifier  
+start : letter s
+s :     letter s
+      | digit s
+      |
       ;
-
 %%
 
-void yyerror(const char *s) {
-    printf("\n%s\n", s); 
-    valid = 0; 
+int yyerror(){  
+    printf("\nIts not a identifier!\n");
+   valid=0;
+   return 0;
 }
 
-int main() {
-    printf("\nEnter a name to be tested for identifier: ");
-    yyparse();  
-    if (valid) {
-        printf("\nIt is a valid identifier!\n");
+int main(){ 
+     printf("\nEnter a name to tested for identifier ");
+    yyparse();
+    if(valid){
+    printf("\nIt is an identifier!\n");
     }
-    return 0;
 }

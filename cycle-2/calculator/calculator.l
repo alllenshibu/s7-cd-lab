@@ -13,7 +13,7 @@ extern int yylval;
     return NUMBER;         
 }
 
-[\t]+  ;  
+[ \t]+  ;  
 
 \n     { return 0; }  
 

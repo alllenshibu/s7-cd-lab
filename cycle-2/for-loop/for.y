@@ -1,71 +1,52 @@
 %{
 #include <stdio.h>
 #include <stdlib.h>
+
+void yyerror(const char *s);
+int yylex(void);
 %}
 
-%token ID NUM FOR LE GE EQ NE OR AND
 
-%right "="
-%left OR AND
-%left '>' '<' LE GE EQ NE
-%left '+' '-'
-%left '*' '/'
-%right UMINUS
-%left '!'
+%token  FOR LPAREN RPAREN SEMICOLON IDENTIFIER ASSIGN  CONDITION  INCREMENT LBRACE RBRACE  STATEMENT
 
-%%   
+%% 
 
-S      : ST { printf("Input accepted\n"); exit(0); }
-ST     : FOR '(' E ';' E2 ';' E ')' DEF
-        ;
+statement:
+    for_statement
+    ;
 
-DEF    : '{' BODY '}'
-        | E ';'
-        | ST
-        | 
-        ;
+for_statement:
+    FOR LPAREN for_initialization SEMICOLON for_condition SEMICOLON for_increment RPAREN LBRACE statements RBRACE
+    {
+        printf("Valid for statement.\n");
+    }
+    ;
 
-BODY   : BODY BODY
-        | E ';'       
-        | ST
-        | 
-        ;
+for_initialization:
+    IDENTIFIER ASSIGN CONDITION
+    ;
 
-E      : ID '=' E
-        | E '+' E
-        | E '-' E
-        | E '*' E
-        | E '/' E
-        | E '<' E
-        | E '>' E
-        | E LE E
-        | E GE E
-        | E EQ E
-        | E NE E
-        | E OR E
-        | E AND E
-        | E '+' '+' 
-        | E '-' '-'  
-        | ID 
-        | NUM
-        ;
+for_condition:
+    CONDITION
+    ;
 
-E2     : E '<' E
-        | E '>' E
-        | E LE E
-        | E GE E
-        | E EQ E
-        | E NE E
-        | E OR E
-        | E AND E
-        ;   
+for_increment:
+    IDENTIFIER INCREMENT
+    ;
 
-%%
+statements:
+    STATEMENT
+    | statements STATEMENT
+    ;
 
-#include "lex.yy.c"
+%% 
 
-int main() {
-    printf("Enter the expression:\n");
+void yyerror(const char *s) {
+    fprintf(stderr, "Error: %s\n", s);
+}
+
+int main(void) {
+    printf("Enter a C for statement:\n");
     yyparse();
     return 0;
 }
